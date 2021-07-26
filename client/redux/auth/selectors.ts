@@ -1,0 +1,1 @@
+export const getAccessToken = (state): string => state.auth.accessToken;

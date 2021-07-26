@@ -1,0 +1,72 @@
+version: "3.7"
+
+services:
+  client:
+    restart: always
+    container_name: client
+    build:
+      context: ./client
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    command: yarn dev
+    environment:
+      - CHOKIDAR_USEPOLLING=true # needed for hot reloading
+  api:
+    container_name: api
+    build:
+      context: ./api
+    expose:
+      - ${SERVER_PORT}
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    command: yarn start:dev
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_NAME}
+      PG_DATA: /data/postgres
+    logging:
+      driver: none
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-dataset:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    logging:
+      driver: none
+  nginx:
+    restart: always
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    build:
+      context: ./nginx
+    ports:
+      - 3050:80
+    depends_on:
+      - api
+      - client
+volumes:
+  pg-dataset:
