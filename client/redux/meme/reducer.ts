@@ -2,7 +2,7 @@ import produce from 'immer';
 import { AnyAction } from 'redux';
 import { UPDATE_MEMES, SELECT_MEME } from './types';
 
-interface MemeState {
+export interface MemeState {
     memes?: any;
     selectedMeme?: any;
 }

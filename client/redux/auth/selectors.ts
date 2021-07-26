@@ -1,1 +1,3 @@
-export const getAccessToken = (state): string => state.auth.accessToken;
+import { State } from '../store';
+
+export const getAccessToken = (state: State): string => state.auth.accessToken;

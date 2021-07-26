@@ -1,3 +1,5 @@
-export const getMemes = (state) => state.meme.memes;
+import { State } from '../store';
 
-export const getSelectedMeme = (state) => state.meme.selectedMeme;
+export const getMemes = (state: State): Array<Meme> => state.meme.memes;
+
+export const getSelectedMeme = (state: State): Meme => state.meme.selectedMeme;

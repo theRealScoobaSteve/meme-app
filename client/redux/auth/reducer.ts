@@ -2,7 +2,7 @@ import produce from 'immer';
 import { AnyAction } from 'redux';
 import { UPDATE_TOKEN } from './types';
 
-interface AuthState {
+export interface AuthState {
     accessToken?: string;
 }
 
