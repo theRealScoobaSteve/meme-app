@@ -20,7 +20,7 @@ JWT_EXPIRATION_TIME=150000
 ## Starting up
 - Make sure you have docker installed
 - run ```docker-compose build``` in the project root
-- run ```docker-compose run``` in the project root
+- run ```docker-compose up``` in the project root
 - go to http://localhost:3050
 
 ## Testing
